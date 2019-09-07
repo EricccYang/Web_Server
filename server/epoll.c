@@ -1,6 +1,4 @@
 
-
-
 #include "epoll.h"
 
 
@@ -19,6 +17,7 @@ int epoll_create(int flags){
 
 void epoll_add(int epfd, int fd, struct epoll_event* event){
     int rc = epoll_ctl(epfd, EPOLL_CTL_ADD, fd, event);
+    check(rc== 0, "epoll_add");
     return fd;
 }
 
@@ -34,8 +33,8 @@ void epoll_del(int epfd, int fd, struct epoll_event* event){
     return;
 }
 
-int epoll_wait(int epfd, struct epoll_event* events, in t maxevents, int timeout){
+int epoll_wait(int epfd, struct epoll_event* events, int maxevents, int timeout){
     int n = epoll_wait(epfd, events, maxevents, timeout);
-    check(n>=0,"zv_epoll_wait: epoll_wait");
+    check(n>=0,"epoll_wait");
     return n;
 }

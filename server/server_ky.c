@@ -1,12 +1,8 @@
-//
-// Created by kaicheng yang on 2019/8/23.
-//
-
-
-
+/* A high performance Web Server*/
+/* Kaicheng Yang*/
 
 #include <stdint.h>
-#include <getopt.h>         //解析命令行
+#include <getopt.h>
 #include <signal.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -34,7 +30,7 @@ static const struct option long_options[]={
 static void usage(){
     fprintf(stderr,
     "zaver [option]...\n"
-    " -c|--conf<config file>    Specify config file. Default ./zaver.conf.\n"
+    " -c|--conf<config file>    Specify config file. Default ./server_ky.conf.\n"
     " -?|-h|--help              This information.\n"
     " -V|--version              Display program version.\n"
     );
@@ -103,45 +99,42 @@ int main (int argc, char* argv[]){
     socklen_t inlen = 1;
     memset(&clientaddr, 0 ,sizeof(struct sockaddr_in));
 
-    listenfd = open_listenfd(cf.port);       //set a port given by server admin as socket port
+    listenfd = open_listenfd(cf.port);
     rc = make_socket_non_blocking(listenfd);     //set the descripter non_blocking
     check(rc == 0, "make_socket_non_blocking");
 
-
     //create epoll and add listenfd to ep
-    int epfd = zv_epoll_create(0);           //create the descripter for epoll
+    int epfd = epoll_create(0);
     struct epoll_event event;
 
-    zv_http_request_t* request = (zv_http_request_t*)malloc(sizeof(zv_http_request_t));
-    zv_init_requset_t*(request, listenfd, epfd, &cf);   //bind the listen port，epoll descripter and request
+    http_request_t* request = (http_request_t*)malloc(sizeof(http_request_t));
+    init_requset_t(request, listenfd, epfd, &cf);   //bind the listen port，epoll descripter and request
 
-    event.data.ptr = (void*)request;                    //?????
-    event.events = EPOLLIN|EPOLLET;                     //read
-    zv_epoll_add(epfd,listenfd, &event);
+    event.data.ptr = (void*)request;
+    event.events = EPOLLIN|EPOLLET;                     //read & edge trigger
+    epoll_add(epfd,listenfd, &event);
 
     //creat thread pool
     threadpool_t *tp = threadpool_init(cf.thread_num);   //starting multi threads
     check(tp!= NULL, "threadpool_init error");
 
     //initialize timer
-    zv_timer_init();                                    //start the timer
+    timer_init();
 
-
-    log_info("zaver started.");
+    log_info("server started.");
     int n;
     int i, fd;
     int time;
 
     while(1){                                           //one single epoll event per while loop
-        time = zv_find_timer();
+        time = find_timer();
         debug("wait time = %d", time);
-        n = zc_epoll_wait(epfd, events, MAXEVENTS, time);   //how many events ready
-        zv_handle_expire_times();
+        n = epoll_wait(epfd, events, MAXEVENTS, time);   //how many events ready
+        handle_expire_times();
 
         for(i = 0;i<n;i++){
-            zv_http_request_t *r = (zv_http_request_t*)events[i].data.ptr;
+            http_request_t* r = (http_request_t*)events[i].data.ptr;
             fd = r->fd;
-
 
             if(listenfd == fd){
 
@@ -163,18 +156,18 @@ int main (int argc, char* argv[]){
                     check(rc == 0, "make_socket_non_blocking");
                     log_info("new connection fd %d", infd);
 
-                    zv_http_request_t* request =(zv_http_request*)malloc(sizeof(zv_http_request_t));
+                    http_request_t* request =(http_request*)malloc(sizeof(http_request_t));
                     if(request == NULL){
-                        log_err("malloc(sizeof(zv_http_request_t))");
+                        log_err("malloc(sizeof(http_request_t))");
                         break;
                     }
 
-                    zv_init_request_t(request, infd, epfd, &cf);
+                    init_request_t(request, infd, epfd, &cf);
                     event.data.ptr = (void*) request;
                     event.events = EPOLLIN|EPOLLET|EPOLLONESHOT;
 
-                    zv_epoll_add(epfd, infd, &event);
-                    zv_add_timer(request, TIMEOUT_DEFAULT, zv_http_close_conn);
+                    epoll_add(epfd, infd, &event);
+                    add_timer(request, TIMEOUT_DEFAULT, http_close_cond);
 
                 }    //end of while loop
             }

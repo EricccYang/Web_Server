@@ -44,7 +44,7 @@ int parse_request_line(http_request_t* r){
 
                     switch(p-m){
                         case 3:
-                            if(zv_str3_cmp(m, 'G', 'E','T',' '){
+                            if(zv_str3_cmp(m, 'G', 'E','T',' ')){
                                 r->method = HTTP_GET;
                             }
                             break;
@@ -172,8 +172,94 @@ int http_parse_request_body(http_request_t* r){
                 state = sw_key;
                 break;
             case sw_key:
-                if
+                if (ch == ' ') {
+                    r->cur_header_key_end = p;
+                    state = sw_spaces_before_colon;
+                    break;
+                }
 
+                if (ch == ':') {
+                    r->cur_header_key_end = p;
+                    state = sw_spaces_after_colon;
+                    break;
+                }
+
+                break;
+            case sw_spaces_before_colon:
+                if (ch == ' ') {
+                    break;
+                } else if (ch == ':') {
+                    state = sw_spaces_after_colon;
+                    break;
+                } else {
+                    return ZV_HTTP_PARSE_INVALID_HEADER;
+                }
+            case sw_spaces_after_colon:
+                if (ch == ' ') {
+                    break;
+                }
+
+                state = sw_value;
+                r->cur_header_value_start = p;
+                break;
+            case sw_value:
+                if (ch == CR) {
+                    r->cur_header_value_end = p;
+                    state = sw_cr;
+                }
+
+                if (ch == LF) {
+                    r->cur_header_value_end = p;
+                    state = sw_crlf;
+                }
+
+                break;
+            case sw_cr:
+                if (ch == LF) {
+                    state = sw_crlf;
+                    // save the current http header
+                    hd = (zv_http_header_t *)malloc(sizeof(zv_http_header_t));
+                    hd->key_start   = r->cur_header_key_start;
+                    hd->key_end     = r->cur_header_key_end;
+                    hd->value_start = r->cur_header_value_start;
+                    hd->value_end   = r->cur_header_value_end;
+
+                    list_add(&(hd->list), &(r->list));
+
+                    break;
+                } else {
+                    return ZV_HTTP_PARSE_INVALID_HEADER;
+                }
+
+            case sw_crlf:
+                if (ch == CR) {
+                    state = sw_crlfcr;
+                } else {
+                    r->cur_header_key_start = p;
+                    state = sw_key;
+                }
+                break;
+
+            case sw_crlfcr:
+                switch (ch) {
+                    case LF:
+                        goto done;
+                    default:
+                        return ZV_HTTP_PARSE_INVALID_HEADER;
+                }
+                break;
         }
     }
+
+    r->pos = pi;
+    r->state = state;
+
+    return ZV_AGAIN;
+
+    done:
+    r->pos = pi + 1;
+
+    r->state = sw_start;
+
+    return ZV_OK;
 }

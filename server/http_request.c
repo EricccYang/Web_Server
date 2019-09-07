@@ -1,7 +1,4 @@
 
-
-
-
 #include <math.h>
 #include <time.h>
 #include <unistd.h>
@@ -10,18 +7,18 @@
 #include "error.h"
 
 
-static int zv_http_process_ignore(zv_http_request_t* r, zv_http_out_t* out, char* data, int len);
-static int zv_http_process_connection(zv_http_request_t* r, zv_http_out_t* out, char*data, int len);
-static int zv_http_process_if_modified_since(zv_http_request_t* r, zv_http_out_t* out, char*data, int len);
+static int http_process_ignore(http_request_t* r, http_out_t* out, char* data, int len);
+static int http_process_connection(http_request_t* r, http_out_t* out, char*data, int len);
+static int http_process_if_modified_since(http_request_t* r, http_out_t* out, char*data, int len);
 
 http_header_handle_t http_header_in[] = {
-        {"HOST",zv_http_process_ignore},
+        {"HOST",http_process_ignore},
         {"Coonection",http_process_connection},
-        {"If modified since", zv_http_process_if_modified_since},
+        {"If modified since", http_process_if_modified_since},
         {"", zv_http_process_ignore}
 };
 
-int zv_init_request_t(http_request_t* r, int fd, int epfd, zv_conf_t* cf){
+int init_request_t(http_request_t* r, int fd, int epfd, zv_conf_t* cf){
     r->fd =fd;
     r->epfd = epfd;
     r->pos =r->last =0;
@@ -29,7 +26,7 @@ int zv_init_request_t(http_request_t* r, int fd, int epfd, zv_conf_t* cf){
     r->root = cf->root;
     INIT_LIST_HEAD(&(r->list));
 
-    return ZV_HTTP_OK;
+    return HTTP_OK;
 }
 
 int free_request_t(http_request_t* r){
@@ -85,7 +82,7 @@ static int http_procss_ignore(http_request_t* r, http_out_t* out, char* data, in
     (void)  data;
     (void)  len;
 
-    return ZV_OK;
+    return OK;
 }
 
 int http_process_if_modified_since(http_request_t* r, http_out_t* out, chart* data, int len){

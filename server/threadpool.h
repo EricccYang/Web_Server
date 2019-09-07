@@ -42,19 +42,19 @@ typedef struct {
 
 
 typedef enum {
-    zv_tp_invalid = -1,
-    zv_tp_lock_fail = -2,
-    zv_tp_already_shutdown = -3,
-    zv_tp_cond_broadcast = -4,
-    zc_tp_thread_fail = -5,
-} zv_threadpool_error_t;
+    threadpool_invalid = -1,
+    threadpool_lock_fail = -2,
+    threadpool_already_shutdown = -3,
+    threadpool_cond_broadcast = -4,
+    threadpppl_thread_fail = -5,
+} threadpool_error_t;
 
 
-zv_threadpool_t *threadpool_init(int thread_num);
+threadpool_t *threadpool_init(int thread_num);
 
-int threadpool_add(zv_threadpool_t *pool, void(*func)(void *), void *arg);
+int threadpool_add(threadpool_t *pool, void(*func)(void *), void *arg);
 
-int threadpool_destroy(zv_threadpool_t *pool, int graceful);
+int threadpool_destroy(threadpool_t *pool, int graceful);
 
 #ifdef __cplusplus
 }

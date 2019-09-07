@@ -1,26 +1,24 @@
 
-
 #include "threadpool.h"
 
 typedef enum{
     immediate_shutdown =1,
     graceful_shutdown = 2,
-}zv_threadpool_sd_t;
+}threadpool_sd_t;
 
 
-
-static int threadpool_free(zv_threadpool_t* pool);
+static int threadpool_free(threadpool_t* pool);
 static void* threadpool_worker(void* arg);
 
 
-zv_threadpool_t *threadpool_init(int thread_num){
+threadpool_t *threadpool_init(int thread_num){
     if(thread_num<0){
         log_err("arg of threadpool_init must greater than 0");
         return NULL;
     }
 
-    zv_threadpool_t* pool;
-    if((pool=(zv_threadpool_t*)malloc(sizeof(zv_threadpool_t)))==NULL){
+    threadpool_t* pool;
+    if((pool=(threadpool_t*)malloc(sizeof(threadpool_t)))==NULL){
         goto err;
     }
 
@@ -29,7 +27,7 @@ zv_threadpool_t *threadpool_init(int thread_num){
     pool->shutdown = 0;
     pool->started = 0;
     pool->threads = (pthread_t*)malloc(sizeof(pthread_t)*thread_num);
-    pool->head= (zv_task_t* )malloc(sizeof(zv_task_t));
+    pool->head= (task_t* )malloc(sizeof(task_t));
 
     if((pool->threads == NULL)||(pool->head==NULL)){
         goto err;
@@ -67,7 +65,6 @@ err:
     if(pool){
         threadpool_free(pool);
     }
-
     return NULL;
 }
 
@@ -89,7 +86,7 @@ int threadpool_add(zv_threadpool_t* pool, void (*func)(void*), void* arg){
     }
 
     //use a memory pool
-    zv_task_t *task = (zv_tast_t* )malloc(sizeof(zv_task_t));
+    task_t *task = (tast_t* )malloc(sizeof(task_t));
     if(task==NULL){
         log_err("malloc task fail");
         goto out;
@@ -114,7 +111,7 @@ out:
     return err;
 }
 
-int threadpool_free(zv_threadpool_t* pool){
+int threadpool_free(threadpool_t* pool){
     if(pool== NULL || pool->started >0){
         return -1;
     }
@@ -123,7 +120,7 @@ int threadpool_free(zv_threadpool_t* pool){
         free(pool->threads);
     }
 
-    zv_task_t* old;
+    task_t* old;
     while(pool->head->next){
         old = pool->head->next;
         pool->head->next= pool->head->next->next;
@@ -133,16 +130,16 @@ int threadpool_free(zv_threadpool_t* pool){
     return 0;
 }
 
-int threadpool_destroy(zv_threadpool_t* pool, int graceful){
+int threadpool_destroy(threadpool_t* pool, int graceful){
     int err = 0;
 
     if(pool==NULL){
         log_err("pool == NULL");
-        return zv_tp_invalid;
+        return tp_invalid;
     }
 
     if(pthread_mutex_lock(&(pool->lock))!=0){
-        return zv_tp_lock_fail;
+        return tp_lock_fail;
     }
 
     do{
@@ -183,12 +180,12 @@ int threadpool_destroy(zv_threadpool_t* pool, int graceful){
 
 static void* threadpool_worker(void* arg){
     if(arg == NULL){
-        log_err("arg should be type zv_threadpool_t*");
+        log_err("arg should be type threadpool_t*");
         return NULL;
     }
 
-    zv_threadpool_t* pool =(zv_threadpool_t*)arg;
-    zv_task_t *task;
+    threadpool_t* pool =(threadpool_t*)arg;
+    task_t *task;
 
     while(1){
         pthread_mutex_lock(&(pool->lock));

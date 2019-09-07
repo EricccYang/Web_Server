@@ -5,7 +5,7 @@
 #define DEBUG_H
 
 #include <stdio.h>
-#include <errno.h>  //linux system errors
+#include <errno.h> 
 #include <string.h>
 #include <stdlib.h>
 

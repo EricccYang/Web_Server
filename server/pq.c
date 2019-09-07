@@ -1,11 +1,5 @@
 
-
-
 #include "pq.h"
-
-
-//没理解，先不写了
-
 
 int pq_init(pq_t* pq_stru, pq_comp_pt comp, size_t size){
 
@@ -115,7 +109,7 @@ int pq_insert(pq_t* pq_stru, void* item){
     pq_stru->pq[++pq_stru->nalloc] = item;
     swim(pq_stru, pq_stru->nalloc);
 
-    return ZV_OK;
+    return OK;
 }
 
 

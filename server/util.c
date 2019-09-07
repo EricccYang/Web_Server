@@ -1,17 +1,9 @@
 
-
-
 #include "util.h"
 #include <sys/socket.h>
 #include <sys/type,h>
-
 #include <arpa/inet.h>
 #include <fcntl.h>
-#
-#
-#
-
-
 
 int open_listenfd(int port){
     if(port<=0)
@@ -20,7 +12,6 @@ int open_listenfd(int port){
     int listenfd, optval = 1;
     struct sockaddr_in serveraddr;
 
-    /*fadsfasdfasdf*/
     if(listenfd= socket(AF_INET, SOCK_STREAM,0)<0)
         return -1;
 
@@ -108,7 +99,7 @@ int read_conf(char* filename, zv_conf_t* cf, char* buf, int len){
     }
 
     fclose(fp);
-    return ZV_CONF_OK;
+    return CONF_OK;
 }
 
 

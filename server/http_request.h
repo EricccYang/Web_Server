@@ -1,7 +1,4 @@
 
-
-
-
 #ifndef HTTP_REQUEST_H
 #define HTTP_REQUEST_H
 
@@ -11,21 +8,21 @@
 
 #define ZV_AGAIN EAGAIN
 
-#define HTTP_PARSE_INVALID_METHOD   10
-#define HTTP_PARSE_INVALID_REQUEST   11
-#define HTTP_PARSE_INVALID_HEADER   12
+#define HTTP_PARSE_INVALID_METHOD       10
+#define HTTP_PARSE_INVALID_REQUEST      11
+#define HTTP_PARSE_INVALID_HEADER       12
 
 #define HTTP_UNKNOWN        0x0001
 #define HTTP_GET            0x0002
 #define HTTP_HEAD           0x0004
 #define HTTP_POST           0x0008
 
-#define ZV_HTTP_OK          200
+#define HTTP_OK             200
 
-#define ZV_HTTP_NOT_MODIFIED    304
-#define ZV_HTTP_NOT_FOUND       404
+#define HTTP_NOT_MODIFIED   304
+#define HTTP_NOT_FOUND      404
 
-#define MAX_BUF 8124
+#define MAX_BUF             8124
 
 typedef struct http_request_s{
     void** root;
@@ -90,7 +87,7 @@ int init_out_t(http_out_t* o);
 
 const char* get_shortmsg_from_sta_code(int status_code);
 
-extern zv_http_header_handle_t  zv_http_headers_in[];
+extern http_header_handle_t  zv_http_headers_in[];
 
 #endif
 
