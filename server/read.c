@@ -52,7 +52,7 @@ ssize_t rio_writen(int fd, void* usrbuf, size_t n){
 }
 
 
-static ssize_t rio_read(rio_* rp, char* usrbuf, size_t n){
+static ssize_t rio_read(rio_t* rp, char* usrbuf, size_t n){
     size_t cnt;
 
     while(rp->rip_cnt <= 0){//refill if buffer is empty

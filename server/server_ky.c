@@ -13,11 +13,13 @@
 #include "timer.h"
 #include "epoll.h"
 #include "threadpool.h"
+#include "debug.h"
 
 
 #define  CONF "server_ky.conf"
 #define  PROGRAM_VERSION "0.1"
 
+typedef struct threadpool_t threadpool_t;
 extern struct epoll_event* events;
 
 static const struct option long_options[]={
@@ -77,7 +79,7 @@ int main (int argc, char* argv[]){
 
     /* read config file */
     char conf_buf[BUFLEN];
-    zv_conf_t  cf;
+    conf_t  cf;
     rc = read_conf(conf_file, &cf ,conf_buf, BUFLEN);
     check( rc == CONF_OK, "read conf err ");
 
@@ -130,7 +132,7 @@ int main (int argc, char* argv[]){
         time = find_timer();
         debug("wait time = %d", time);
         n = epoll_wait(epfd, events, MAXEVENTS, time);   //how many events ready
-        handle_expire_times();
+        handle_expire_timers();
 
         for(i = 0;i<n;i++){
             http_request_t* r = (http_request_t*)events[i].data.ptr;

@@ -14,7 +14,8 @@ extern "C" {
 #include <pthread.h>
 #include <stdint.h>
 
-#include"dbg.h"
+#include "debug.h"
+
 
 #define THREAD_NUM 8
 
@@ -38,7 +39,7 @@ typedef struct {
     int queue_size;
     int shutdown;
     int started;
-} zv_threadpool_t;
+}threadpool_t;
 
 
 typedef enum {

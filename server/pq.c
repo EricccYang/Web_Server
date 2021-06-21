@@ -45,7 +45,7 @@ static int resize(pq_t* pq_stru, size_t newsize){        //
         return -1;
     }
 
-    memcpy(newptr, pq_stru->pq, sizeof((void*)*(pq->nalloc+1)));
+    memcpy(newptr, pq_stru->pq, sizeof((void*)(pq_stru->nalloc+1)));
     free(pq_stru->pq);
     pq_stru->pq= newptr;
     pq_stru->nalloc= newsize;
@@ -74,7 +74,7 @@ static size_t sink(pq_t* pq_stru, size_t k){      //不懂
     while(2*k <= nalloc){
         j=2*k;
         if(j<nalloc&& pq_stru->comp(pq_stru->pq[j+1],pq_stru->pq[j]))   j++;
-        if(!pq->stru->comp(pq_stru->pq[j],pq_stru->pq[k]))  break;
+        if(!pq_stru->comp(pq_stru->pq[j],pq_stru->pq[k]))  break;
         exch(pq_stru, j, k);
         k = j;
     }
@@ -102,7 +102,7 @@ int pq_delim(pq_t* pq_stru){
 
 
 int pq_insert(pq_t* pq_stru, void* item){
-    if(pq_stru->nalloc +1 == pq->size){
+    if(pq_stru->nalloc +1 == pq_stru->size){
         if(resize(pq_stru, pq_stru->size*2)<0) return -1;
     }
 

@@ -20,8 +20,8 @@ typedef struct timer_node_s{
     http_request_t* rq;
 } timer_node;
 
-int time_init();
-int finder_timer();
+int timer_init();
+int find_timer();
 int handle_expire_timers();
 
 extern pq_t timer;

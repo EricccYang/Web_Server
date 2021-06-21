@@ -1,5 +1,6 @@
 
 #include "epoll.h"
+#include "stdio.h"
 
 
 struct epoll_event* events;
@@ -9,13 +10,13 @@ int epoll_create(int flags){
     int fd = epoll_create1(flags);
     check(fd>0, "epoll_creat:");
 
-    event = (struct epoll_event*)malloc(sizeof(struct epoll_event)*MAXEVENTS);
+    struct epoll_event* event = (struct epoll_event*)malloc(sizeof(struct epoll_event)*MAXEVENTS);
     check(events != NULL, "epoll_create: malloc");
     return fd;
 }
 
 
-void epoll_add(int epfd, int fd, struct epoll_event* event){
+int epoll_add(int epfd, int fd, struct epoll_event* event){
     int rc = epoll_ctl(epfd, EPOLL_CTL_ADD, fd, event);
     check(rc== 0, "epoll_add");
     return fd;

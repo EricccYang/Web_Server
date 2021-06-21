@@ -1,6 +1,6 @@
 
 #ifndef LIST_H
-#defien LIST_H
+#define LIST_H
 
 #ifndef NULL
 #define NULL 0

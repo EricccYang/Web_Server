@@ -1,145 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="false">
-    <generated />
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="ky_server" targetName="ky_server" />
+    </generated>
   </component>
-  <component name="CMakeSettings">
+  <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
-      <configuration CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" ENABLED="true" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="577763d1-b4d5-4232-be46-aa9a6d1972c0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/debug.h" afterPath="$PROJECT_DIR$/server/debug.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/epoll.c" afterPath="$PROJECT_DIR$/server/epoll.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/epoll.h" afterPath="$PROJECT_DIR$/server/epoll.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/http.c" afterPath="$PROJECT_DIR$/server/http.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/http.h" afterPath="$PROJECT_DIR$/server/http.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/http_parse.c" afterPath="$PROJECT_DIR$/server/http_parse.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/http_request.c" afterPath="$PROJECT_DIR$/server/http_request.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/http_request.h" afterPath="$PROJECT_DIR$/server/http_request.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/list.h" afterPath="$PROJECT_DIR$/server/list.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/pq.c" afterPath="$PROJECT_DIR$/server/pq.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/pq.h" afterPath="$PROJECT_DIR$/server/pq.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/read.h" afterPath="$PROJECT_DIR$/server/read.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/server_ky.c" afterPath="$PROJECT_DIR$/server/server_ky.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/threadpool.c" afterPath="$PROJECT_DIR$/server/threadpool.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/threadpool.h" afterPath="$PROJECT_DIR$/server/threadpool.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/timer.c" afterPath="$PROJECT_DIR$/server/timer.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/timer.h" afterPath="$PROJECT_DIR$/server/timer.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/util.c" afterPath="$PROJECT_DIR$/server/util.c" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/epoll.c" beforeDir="false" afterPath="$PROJECT_DIR$/server/epoll.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/http.c" beforeDir="false" afterPath="$PROJECT_DIR$/server/http.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/http_parse.c" beforeDir="false" afterPath="$PROJECT_DIR$/server/http_parse.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/http_parse.h" beforeDir="false" afterPath="$PROJECT_DIR$/server/http_parse.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/http_request.h" beforeDir="false" afterPath="$PROJECT_DIR$/server/http_request.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/list.h" beforeDir="false" afterPath="$PROJECT_DIR$/server/list.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pq.c" beforeDir="false" afterPath="$PROJECT_DIR$/server/pq.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pq.h" beforeDir="false" afterPath="$PROJECT_DIR$/server/pq.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/read.c" beforeDir="false" afterPath="$PROJECT_DIR$/server/read.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server_ky.c" beforeDir="false" afterPath="$PROJECT_DIR$/server/server_ky.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/threadpool.h" beforeDir="false" afterPath="$PROJECT_DIR$/server/threadpool.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/timer.h" beforeDir="false" afterPath="$PROJECT_DIR$/server/timer.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/util.h" beforeDir="false" afterPath="$PROJECT_DIR$/server/util.h" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="server_ky.conf" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/server_ky.conf">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="read.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/read.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="util.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/util.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="http_parse.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/http_parse.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3615">
-              <caret line="241" column="0" lean-forward="false" selection-start-line="241" selection-start-column="0" selection-end-line="241" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debug.h" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/server/debug.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="19" lean-forward="false" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="http_parse.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/http_parse.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="http.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/http.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="28" lean-forward="true" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="http.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/http.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4025">
-              <caret line="287" column="11" lean-forward="false" selection-start-line="287" selection-start-column="11" selection-end-line="287" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/list.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="825">
-              <caret line="55" column="35" lean-forward="true" selection-start-line="55" selection-start-column="35" selection-end-line="55" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="util.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/util.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1035">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CMakeLists.txt" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -187,6 +89,7 @@
     <option name="width" value="1356" />
     <option name="height" value="760" />
   </component>
+  <component name="ProjectId" id="1uGFrycrTYYWJOmWrN07q1KVjSO" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
@@ -223,26 +126,42 @@
       </pane>
     </panes>
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.file-colors" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="cmake.loaded.for.project" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="com.maddyhome.idea.vim.ui.VimEmulationConfigurable" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+  <component name="RunManager">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ky_server" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ky_server" TARGET_NAME="ky_server" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ky_server" RUN_TARGET_NAME="ky_server">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
-  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -254,6 +173,8 @@
       <option name="presentableId" value="Default" />
       <updated>1567869831573</updated>
       <workItem from="1567869833030" duration="5732000" />
+      <workItem from="1624284229470" duration="775000" />
+      <workItem from="1624285014813" duration="3706000" />
     </task>
     <servers />
   </component>
@@ -285,14 +206,7 @@
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager />
-    <watches-manager />
+    <option name="version" value="3" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/README.md">

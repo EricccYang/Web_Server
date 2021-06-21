@@ -1,5 +1,5 @@
 
-#include "parse_requet.h"
+#include "http_parse.h"
 #include "http.h"
 
 int parse_request_line(http_request_t* r){
@@ -32,7 +32,7 @@ int parse_request_line(http_request_t* r){
                 r->request_start = p;
 
                 if(ch == CR || ch == LF) break;
-                if((ch<'A'||ch>'Z')&&ch!='_')   return INVALID_METHOD;
+                if((ch<'A'||ch>'Z')&&ch!='_')   return HTTP_PARSE_INVALID_METHOD;
 
                 state = sw_method;
                 break;
@@ -62,7 +62,7 @@ int parse_request_line(http_request_t* r){
                             r->method = HTTP_UNKNOWN;
                             break;
                     }
-                    state = sw_spaces_beforeP=_uri;
+                    state = sw_spaces_before=_uri;
                     break;
                 }
 
@@ -146,12 +146,12 @@ int http_parse_request_body(http_request_t* r){
         sw_start = 0,
         sw_key,
         sw_spaces_before_colon,
-        sw_spaces_after_colo,
+        sw_spaces_after_colon,
         sw_value,
         sw_cr,
         sw_crlf,
         sw_lf,
-        sw_crlf
+
     }state;
 
     state = r->state;

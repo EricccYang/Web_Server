@@ -1,0 +1,5 @@
+/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/server/CMakeFiles/edit_cache.dir
+/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/server/CMakeFiles/rebuild_cache.dir
+/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/server/CMakeFiles/ky_server.dir

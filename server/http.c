@@ -1,9 +1,12 @@
 
 #include "http.h"
+#include "http_request.h"
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/epoll.h>
+#include <stdlib.h>
 
 
 static const char* get_file_type(const char* type);
@@ -11,7 +14,7 @@ static void parse_uri(char* uri, int length, char* filename, char* queryshring);
 static void do_error(int fd, char* casuse, char* errnum, char* shortingmsg, char* longmsg);
 static void serve_static(int fd, char* filename, size_t filesize, http_out_t* out);
 
-static serve_static( int fd, char* filename, size_t filesize, zv_http_out_t *out);
+//static serve_static( int fd, char* filename, size_t filesize, http_out_t *out);
 static char* ROOT = NULL;
 
 mime_type_t mime[]={
@@ -97,13 +100,13 @@ void do_request(void* ptr){
         /*
         *   handle http header
         */
-        zv_http_out_t *out = (zv_http_out_t *)malloc(sizeof(zv_http_out_t));
+        http_out_t *out = (http_out_t *)malloc(sizeof(http_out_t));
         if (out == NULL) {
             log_err("no enough space for zv_http_out_t");
             exit(1);
         }
 
-        rc = zv_init_out_t(out, fd);
+        rc = init_out_t(out, fd);
         check(rc == ZV_OK, "zv_init_out_t");
 
         parse_uri(r->uri_start, r->uri_end - r->uri_start, filename, NULL);
@@ -126,7 +129,7 @@ void do_request(void* ptr){
         check(list_empty(&(r->list)) == 1, "header list should be empty");
 
         if (out->status == 0) {
-            out->status = ZV_HTTP_OK;
+            out->status = HTTP_OK;
         }
 
         serve_static(fd, filename, sbuf.st_size, out);

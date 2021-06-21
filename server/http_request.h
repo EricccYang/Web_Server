@@ -5,6 +5,7 @@
 #include <time.h>
 #include "http.h"
 #include "list.h"
+#include "util.h"
 
 #define ZV_AGAIN EAGAIN
 
@@ -24,7 +25,7 @@
 
 #define MAX_BUF             8124
 
-typedef struct http_request_s{
+typedef struct http_request_s {
     void** root;
     int fd;
     int epfd;
@@ -33,6 +34,7 @@ typedef struct http_request_s{
     int state;
     void *request_start;
     void* method_end;
+    void* method_start;
     int method;
     void*  uri_end;
     void*  uri_start;
@@ -52,7 +54,7 @@ typedef struct http_request_s{
     void* cur_header_value_end;
 
     void* timer;
-}http_request_t;
+}http_request_t ;
 
 
 typedef struct{
@@ -61,7 +63,7 @@ typedef struct{
     time_t  mtime;
     int modified;
     int status;
-}zv_http_out_t;
+}http_out_t;
 
 typedef struct http_header_s{
     void* key_start, *key_end;
@@ -69,21 +71,22 @@ typedef struct http_header_s{
     list_head list;
 }http_header_t;
 
-typedef int (*http_header_handler_pt)(http_request_t* r, zv_http_out_t* o, char* data, int len);
+typedef int (*http_header_handler_pt)(http_request_t* r, http_out_t* o, char* data, int len);
 
 typedef struct{
     char* name;
-    zv_http_header_handler_pt handler;
+    http_header_handler_pt handler;
 }http_header_handle_t;
 
-void http_handle_header(zv_http_request_t* r, http_out_t* o);
+void http_handle_header(http_request_t* r, http_out_t* o);
 int  http_close_conn(http_request_t* r);
 
 int http_init_request(http_request_t* r, int fd, int epfd, conf_t* cf);
 int http_free_request(http_request_t* r);
 
 int init_out_t(http_out_t* o, int fd);
-int init_out_t(http_out_t* o);
+//int init_out_t(http_out_t* o);
+
 
 const char* get_shortmsg_from_sta_code(int status_code);
 
