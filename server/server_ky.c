@@ -15,11 +15,16 @@
 #include "threadpool.h"
 #include "debug.h"
 
+#include <stdlib.h>
+#include <unistd.h>
+
+#include "http_request.h"
+
 
 #define  CONF "server_ky.conf"
 #define  PROGRAM_VERSION "0.1"
-
-typedef struct threadpool_t threadpool_t;
+//
+//typedef struct threadpool_t threadpool_t;
 extern struct epoll_event* events;
 
 static const struct option long_options[]={
@@ -87,8 +92,8 @@ int main (int argc, char* argv[]){
     //install signal handle for SIGPIPE,(terminate the processs)
     struct sigaction sa;
     memset (&sa, '\0', sizeof(sa));
-    sa.sa_hander = SIG_IGN;
-    sa.sa_flag =0;
+    sa.sa_handler = SIG_IGN;
+    sa.sa_flags =0;
     if(sigaction(SIGPIPE,&sa,NULL)){
         log_err("install sigal hander for SIGPIPE failed");
         return 0;
@@ -109,8 +114,8 @@ int main (int argc, char* argv[]){
     int epfd = epoll_create(0);
     struct epoll_event event;
 
-    http_request_t* request = (http_request_t*)malloc(sizeof(http_request_t));
-    init_requset_t(request, listenfd, epfd, &cf);   //bind the listen port，epoll descripter and request
+    http_request_t* request =(http_request_t*)malloc(sizeof(http_request_t));
+    init_request_t(request, listenfd, epfd, &cf);   //bind the listen port，epoll descripter and request
 
     event.data.ptr = (void*)request;
     event.events = EPOLLIN|EPOLLET;                     //read & edge trigger
@@ -158,7 +163,7 @@ int main (int argc, char* argv[]){
                     check(rc == 0, "make_socket_non_blocking");
                     log_info("new connection fd %d", infd);
 
-                    http_request_t* request =(http_request*)malloc(sizeof(http_request_t));
+                    http_request_t* request =(http_request_t*)malloc(sizeof(http_request_t));
                     if(request == NULL){
                         log_err("malloc(sizeof(http_request_t))");
                         break;
@@ -169,7 +174,7 @@ int main (int argc, char* argv[]){
                     event.events = EPOLLIN|EPOLLET|EPOLLONESHOT;
 
                     epoll_add(epfd, infd, &event);
-                    add_timer(request, TIMEOUT_DEFAULT, http_close_cond);
+                    add_timer(request, TIMEOUT_DEFAULT, http_close_conn);
 
                 }    //end of while loop
             }
@@ -181,7 +186,7 @@ int main (int argc, char* argv[]){
                 }
                 log_info("new data from fd %d",fd);
 
-                do_request(events[i],data,ptr);
+                do_request(events[i].data.ptr);
             }
 
         } //end of for(n) loop (n : epoll_wait result)

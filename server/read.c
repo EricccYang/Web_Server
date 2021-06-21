@@ -5,6 +5,7 @@
 #include <unistd.h>
 
 #include "read.h"
+#include "debug.h"
 
 
 
@@ -55,7 +56,7 @@ ssize_t rio_writen(int fd, void* usrbuf, size_t n){
 static ssize_t rio_read(rio_t* rp, char* usrbuf, size_t n){
     size_t cnt;
 
-    while(rp->rip_cnt <= 0){//refill if buffer is empty
+    while(rp->rio_cnt <= 0){//refill if buffer is empty
         rp->rio_cnt = read(rp->rio_fd, rp->rio_buf, sizeof(rp->rio_buf));
         if(rp->rio_cnt < 0){
             if(errno == EAGAIN)
@@ -71,7 +72,7 @@ static ssize_t rio_read(rio_t* rp, char* usrbuf, size_t n){
     }
 
     cnt =n;
-    if(rp->rio_cnt< (sszie_t)n)
+    if(rp->rio_cnt< (size_t)n)
         cnt = rp->rio_cnt;
     memcpy(usrbuf, rp->rio_bufptr, cnt);
     rp->rio_bufptr += cnt;

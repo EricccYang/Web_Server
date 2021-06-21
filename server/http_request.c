@@ -18,7 +18,7 @@ http_header_handle_t http_header_in[] = {
         {"", zv_http_process_ignore}
 };
 
-int init_request_t(http_request_t* r, int fd, int epfd, zv_conf_t* cf){
+int init_request_t(http_request_t* r, int fd, int epfd, conf_t* cf){
     r->fd =fd;
     r->epfd = epfd;
     r->pos =r->last =0;
@@ -32,7 +32,7 @@ int init_request_t(http_request_t* r, int fd, int epfd, zv_conf_t* cf){
 int free_request_t(http_request_t* r){
     //todo
     (void)r;
-    return ZV_HTTP_OK;
+    return HTTP_OK;
 }
 
 int zv_init_out_t(http_out_t* o, int fd){
@@ -72,7 +72,7 @@ int http_close_conn(http_request_t* r){
     close(r->fd);
     free(r);
 
-    return ZV_OK;
+    return OK;
 }
 
 

@@ -4,8 +4,8 @@
 
 #include <stdio.h>
 #define PQ_DEFAULT_SIZE 10;
-#define  OK 0;
-#define ZV_OK 0;
+#define  OK  0
+#define ZV_OK 0
 
 
 typedef int (*pq_comp_pt)(void* pi, void* pj);

@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/ky_server.dir/epoll.c.o"
   "CMakeFiles/ky_server.dir/http.c.o"
   "CMakeFiles/ky_server.dir/http_parse.c.o"
+  "CMakeFiles/ky_server.dir/http_request.c.o"
   "CMakeFiles/ky_server.dir/pq.c.o"
   "CMakeFiles/ky_server.dir/read.c.o"
   "CMakeFiles/ky_server.dir/server_ky.c.o"

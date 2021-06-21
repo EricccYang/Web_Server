@@ -88,6 +88,9 @@ int init_out_t(http_out_t* o, int fd);
 //int init_out_t(http_out_t* o);
 
 
+
+int init_request_t(http_request_t* r, int fd, int epfd, conf_t* cf);
+
 const char* get_shortmsg_from_sta_code(int status_code);
 
 extern http_header_handle_t  zv_http_headers_in[];

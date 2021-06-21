@@ -7,6 +7,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/home/yangaryang/Desktop/server/Web_Server/server/epoll.c" "/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/server/CMakeFiles/ky_server.dir/epoll.c.o"
   "/home/yangaryang/Desktop/server/Web_Server/server/http.c" "/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/server/CMakeFiles/ky_server.dir/http.c.o"
   "/home/yangaryang/Desktop/server/Web_Server/server/http_parse.c" "/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/server/CMakeFiles/ky_server.dir/http_parse.c.o"
+  "/home/yangaryang/Desktop/server/Web_Server/server/http_request.c" "/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/server/CMakeFiles/ky_server.dir/http_request.c.o"
   "/home/yangaryang/Desktop/server/Web_Server/server/pq.c" "/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/server/CMakeFiles/ky_server.dir/pq.c.o"
   "/home/yangaryang/Desktop/server/Web_Server/server/read.c" "/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/server/CMakeFiles/ky_server.dir/read.c.o"
   "/home/yangaryang/Desktop/server/Web_Server/server/server_ky.c" "/home/yangaryang/Desktop/server/Web_Server/cmake-build-debug/server/CMakeFiles/ky_server.dir/server_ky.c.o"

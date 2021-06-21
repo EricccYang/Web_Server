@@ -225,6 +225,33 @@ http_parse.c.s:
 	cd /home/yangaryang/Desktop/server/Web_Server/cmake-build-debug && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/ky_server.dir/build.make server/CMakeFiles/ky_server.dir/http_parse.c.s
 .PHONY : http_parse.c.s
 
+http_request.o: http_request.c.o
+
+.PHONY : http_request.o
+
+# target to build an object file
+http_request.c.o:
+	cd /home/yangaryang/Desktop/server/Web_Server/cmake-build-debug && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/ky_server.dir/build.make server/CMakeFiles/ky_server.dir/http_request.c.o
+.PHONY : http_request.c.o
+
+http_request.i: http_request.c.i
+
+.PHONY : http_request.i
+
+# target to preprocess a source file
+http_request.c.i:
+	cd /home/yangaryang/Desktop/server/Web_Server/cmake-build-debug && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/ky_server.dir/build.make server/CMakeFiles/ky_server.dir/http_request.c.i
+.PHONY : http_request.c.i
+
+http_request.s: http_request.c.s
+
+.PHONY : http_request.s
+
+# target to generate assembly for a file
+http_request.c.s:
+	cd /home/yangaryang/Desktop/server/Web_Server/cmake-build-debug && $(MAKE) $(MAKESILENT) -f server/CMakeFiles/ky_server.dir/build.make server/CMakeFiles/ky_server.dir/http_request.c.s
+.PHONY : http_request.c.s
+
 pq.o: pq.c.o
 
 .PHONY : pq.o
@@ -405,6 +432,9 @@ help:
 	@echo "... http_parse.o"
 	@echo "... http_parse.i"
 	@echo "... http_parse.s"
+	@echo "... http_request.o"
+	@echo "... http_request.i"
+	@echo "... http_request.s"
 	@echo "... pq.o"
 	@echo "... pq.i"
 	@echo "... pq.s"

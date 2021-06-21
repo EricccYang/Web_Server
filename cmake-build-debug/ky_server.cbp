@@ -104,6 +104,12 @@
 		<Unit filename="/home/yangaryang/Desktop/server/Web_Server/server/http_parse.h">
 			<Option target="ky_server"/>
 		</Unit>
+		<Unit filename="/home/yangaryang/Desktop/server/Web_Server/server/http_request.c">
+			<Option target="ky_server"/>
+		</Unit>
+		<Unit filename="/home/yangaryang/Desktop/server/Web_Server/server/http_request.h">
+			<Option target="ky_server"/>
+		</Unit>
 		<Unit filename="/home/yangaryang/Desktop/server/Web_Server/server/pq.c">
 			<Option target="ky_server"/>
 		</Unit>

@@ -19,10 +19,18 @@ server/CMakeFiles/ky_server.dir/http_parse.c.o
  /home/yangaryang/Desktop/server/Web_Server/server/list.h
  /home/yangaryang/Desktop/server/Web_Server/server/read.h
  /home/yangaryang/Desktop/server/Web_Server/server/util.h
+server/CMakeFiles/ky_server.dir/http_request.c.o
+ /home/yangaryang/Desktop/server/Web_Server/server/http.h
+ /home/yangaryang/Desktop/server/Web_Server/server/http_request.c
+ /home/yangaryang/Desktop/server/Web_Server/server/http_request.h
+ /home/yangaryang/Desktop/server/Web_Server/server/list.h
+ /home/yangaryang/Desktop/server/Web_Server/server/read.h
+ /home/yangaryang/Desktop/server/Web_Server/server/util.h
 server/CMakeFiles/ky_server.dir/pq.c.o
  /home/yangaryang/Desktop/server/Web_Server/server/pq.c
  /home/yangaryang/Desktop/server/Web_Server/server/pq.h
 server/CMakeFiles/ky_server.dir/read.c.o
+ /home/yangaryang/Desktop/server/Web_Server/server/debug.h
  /home/yangaryang/Desktop/server/Web_Server/server/read.c
  /home/yangaryang/Desktop/server/Web_Server/server/read.h
 server/CMakeFiles/ky_server.dir/server_ky.c.o

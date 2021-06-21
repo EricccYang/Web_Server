@@ -4,9 +4,9 @@
 #define THREADPOOL_H
 
 
-#ifndef __cplusplus
-extern "C" {
-#endif
+//#ifndef __cplusplus
+//extern "C" {
+//#endif
 
 
 #include <stdlib.h>
@@ -27,14 +27,14 @@ typedef struct zv_task_s {
 
     struct zv_task_s *next;
 
-} zv_task_t;
+} task_t;
 
 
 typedef struct {
     pthread_mutex_t lock;
     pthread_cond_t cond;
     pthread_t *threads;
-    zv_task_t *head;
+    task_t *head;
     int thread_count;
     int queue_size;
     int shutdown;
@@ -57,9 +57,12 @@ int threadpool_add(threadpool_t *pool, void(*func)(void *), void *arg);
 
 int threadpool_destroy(threadpool_t *pool, int graceful);
 
-#ifdef __cplusplus
-}
-#endif
+
+
+//
+//#ifdef __cplusplus
+//}
+//#endif
 
 #endif
 

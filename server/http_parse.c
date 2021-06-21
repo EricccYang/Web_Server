@@ -1,6 +1,7 @@
 
 #include "http_parse.h"
 #include "http.h"
+#include "debug.h"
 
 int parse_request_line(http_request_t* r){
     u_char ch, *p, *m;

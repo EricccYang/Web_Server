@@ -19,9 +19,17 @@ server/CMakeFiles/ky_server.dir/http_parse.c.o: ../server/list.h
 server/CMakeFiles/ky_server.dir/http_parse.c.o: ../server/read.h
 server/CMakeFiles/ky_server.dir/http_parse.c.o: ../server/util.h
 
+server/CMakeFiles/ky_server.dir/http_request.c.o: ../server/http.h
+server/CMakeFiles/ky_server.dir/http_request.c.o: ../server/http_request.c
+server/CMakeFiles/ky_server.dir/http_request.c.o: ../server/http_request.h
+server/CMakeFiles/ky_server.dir/http_request.c.o: ../server/list.h
+server/CMakeFiles/ky_server.dir/http_request.c.o: ../server/read.h
+server/CMakeFiles/ky_server.dir/http_request.c.o: ../server/util.h
+
 server/CMakeFiles/ky_server.dir/pq.c.o: ../server/pq.c
 server/CMakeFiles/ky_server.dir/pq.c.o: ../server/pq.h
 
+server/CMakeFiles/ky_server.dir/read.c.o: ../server/debug.h
 server/CMakeFiles/ky_server.dir/read.c.o: ../server/read.c
 server/CMakeFiles/ky_server.dir/read.c.o: ../server/read.h
 
