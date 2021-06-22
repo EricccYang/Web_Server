@@ -1,8 +1,10 @@
 
 #include "http.h"
 #include "http_request.h"
+#include "http_parse.h"
 #include "debug.h"
 #include "timer.h"
+#include "epoll.h"
 
 
 #include <sys/mman.h>
@@ -86,8 +88,8 @@ void do_request(void* ptr){
 
         log_info("ready to parse request line");
 
-        rc =http_parse_request_line(r);
-        if(rc == AGAIN) continue;
+        rc = http_parse_request_line(r);
+        if(rc == EAGAIN) continue;
         else if(rc != OK){
             log_err("rc != OK");
             goto err;
@@ -97,7 +99,7 @@ void do_request(void* ptr){
         log_info("uri == %.*s", (int)(r->uri_end - r->uri_start), (char*)r->uri_start);
 
         debug("ready to parse request body");
-        rc = zv_http_parse_request_body(r);
+        rc = http_parse_request_body(r);
         if (rc == ZV_AGAIN) {
             continue;
         } else if (rc != ZV_OK) {
@@ -133,7 +135,7 @@ void do_request(void* ptr){
 
         out->mtime = sbuf.st_mtime;
 
-        zv_http_handle_header(r, out);
+        http_handle_header(r, out);
         check(list_empty(&(r->list)) == 1, "header list should be empty");
 
         if (out->status == 0) {
@@ -155,13 +157,13 @@ void do_request(void* ptr){
     event.data.ptr = ptr;
     event.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
 
-    zv_epoll_mod(r->epfd, r->fd, &event);
-    zv_add_timer(r, TIMEOUT_DEFAULT, zv_http_close_conn);
+    epoll_mod(r->epfd, r->fd, &event);
+    add_timer(r, TIMEOUT_DEFAULT, http_close_conn);
     return;
 
     err:
     close:
-    rc = zv_http_close_conn(r);
+    rc = http_close_conn(r);
     check(rc == 0, "do_request: zv_http_close_conn");
 }
 
@@ -230,7 +232,7 @@ static void do_error(int fd, char *cause, char *errnum, char *shortmsg, char *lo
     return;
 }
 
-static void serve_static(int fd, char *filename, size_t filesize, zv_http_out_t *out) {
+static void serve_static(int fd, char *filename, size_t filesize, http_out_t *out) {
     char header[MAXLINE];
     char buf[SHORTLINE];
     size_t n;
@@ -293,8 +295,8 @@ static const char* get_file_type(const char *type)
 
     int i;
     for (i = 0; mime[i].type != NULL; ++i) {
-        if (strcmp(type, zaver_mime[i].type) == 0)
-            return zaver_mime[i].value;
+        if (strcmp(type, mime[i].type) == 0)
+            return mime[i].value;
     }
     return mime[i].value;
 }

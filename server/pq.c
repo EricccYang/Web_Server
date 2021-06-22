@@ -1,5 +1,6 @@
 
 #include "pq.h"
+#include "debug.h"
 
 int pq_init(pq_t* pq_stru, pq_comp_pt comp, size_t size){
 
@@ -17,7 +18,7 @@ int pq_init(pq_t* pq_stru, pq_comp_pt comp, size_t size){
 }
 
 
-int pq_isempty(pq_t* pq_stru){
+int pq_is_empty(pq_t* pq_stru){
 
     return (pq_stru->nalloc == 0)?1 : 0;
 }
@@ -28,7 +29,7 @@ size_t pq_size(pq_t* pq_stru){
 }
 
 void* pq_min(pq_t* pq_stru){
-    if(pq_isempty(pq_stru))
+    if(pq_is_empty(pq_stru))
         return NULL;
     return pq_stru->pq[1];
 }
@@ -75,7 +76,7 @@ static size_t sink(pq_t* pq_stru, size_t k){      //不懂
         j=2*k;
         if(j<nalloc&& pq_stru->comp(pq_stru->pq[j+1],pq_stru->pq[j]))   j++;
         if(!pq_stru->comp(pq_stru->pq[j],pq_stru->pq[k]))  break;
-        exch(pq_stru, j, k);
+        exchange(pq_stru, j, k);
         k = j;
     }
 
@@ -84,7 +85,7 @@ static size_t sink(pq_t* pq_stru, size_t k){      //不懂
 
 
 int pq_delim(pq_t* pq_stru){
-    if(pq_isempty(pq_stru)) return ZV_OK;
+    if(pq_is_empty(pq_stru)) return ZV_OK;
 
     exchange(pq_stru,1,pq_stru->nalloc);
 

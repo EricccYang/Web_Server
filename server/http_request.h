@@ -81,7 +81,7 @@ typedef struct{
 void http_handle_header(http_request_t* r, http_out_t* o);
 int  http_close_conn(http_request_t* r);
 
-int http_init_request(http_request_t* r, int fd, int epfd, conf_t* cf);
+//int http_init_request(http_request_t* r, int fd, int epfd, conf_t* cf);
 int http_free_request(http_request_t* r);
 
 int init_out_t(http_out_t* o, int fd);

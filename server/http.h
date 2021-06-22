@@ -9,7 +9,7 @@
 
 #define MAXLINE 8192
 #define SHORTLINE 512
-#define zv
+#define OK 0
 
 typedef struct mime_type_s{
     const char* type;

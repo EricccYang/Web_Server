@@ -1,9 +1,12 @@
 
 #include "util.h"
 #include <sys/socket.h>
-#include <sys/type,h>
+#include <sys/types.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include "string.h"
+
+#include "debug.h"
 
 int open_listenfd(int port){
     if(port<=0)
@@ -54,28 +57,28 @@ int make_socket_non_blocking(int fd){
 }
 
 
-int read_conf(char* filename, zv_conf_t* cf, char* buf, int len){
+int read_conf(char* filename, conf_t* cf, char* buf, int len){
     FILE* fp = fopen(filename,"r");
     if(!fp){
         log_err("cannot open config file: %s", filename);
-        return ZV_CONF_ERROR;
+        return CONF_ERROR;
     }
 
 
     int pos = 0;
     char* delim_pos;
 
-    itn line_len;
+    int line_len;
     char* cur_pos = buf+pos;
 
 
-    while(fgets(cur_pos,len-pos, fd)){
+    while(fgets(cur_pos,len-pos, fp)){
         delim_pos = strstr(cur_pos, DELIM);
         line_len = strlen(cur_pos);
 
 
         if(!delim_pos){
-            return ZV_CONF_ERROR;
+            return CONF_ERROR;
         }
 
         if(cur_pos[strlen(cur_pos)-1]=='\n'){
@@ -90,7 +93,7 @@ int read_conf(char* filename, zv_conf_t* cf, char* buf, int len){
             cf->port = atoi(delim_pos+1);
         }
 
-        if(strnmp("threadnum",cur_pos, 9 )==0){
+        if(strncmp("threadnum",cur_pos, 9 )==0){
             cf->thread_num  = atoi(delim_pos+1);
         }
 

@@ -4,9 +4,9 @@
 #define THREADPOOL_H
 
 
-//#ifndef __cplusplus
-//extern "C" {
-//#endif
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 #include <stdlib.h>
@@ -47,7 +47,7 @@ typedef enum {
     threadpool_lock_fail = -2,
     threadpool_already_shutdown = -3,
     threadpool_cond_broadcast = -4,
-    threadpppl_thread_fail = -5,
+    threadpool_thread_fail = -5,
 } threadpool_error_t;
 
 
@@ -59,10 +59,10 @@ int threadpool_destroy(threadpool_t *pool, int graceful);
 
 
 
-//
-//#ifdef __cplusplus
-//}
-//#endif
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

@@ -21,7 +21,7 @@
 #include "http_request.h"
 
 
-#define  CONF "server_ky.conf"
+#define  CONF "../../server/server_ky.conf"
 #define  PROGRAM_VERSION "0.1"
 //
 //typedef struct threadpool_t threadpool_t;
@@ -57,6 +57,8 @@ int main (int argc, char* argv[]){
     }
 
     while(( opt=getopt_long( argc,argv,"Vc:?h", long_options, &option_index))!=EOF){
+        log_info("%d",opt);
+
         switch (opt){
             case 0 : break;
             case 'c':

@@ -48,11 +48,11 @@ threadpool_t *threadpool_init(int thread_num){
 
     int i;
     for(i=0;i<thread_num;i++){
-        if(pthread_create(&(pool->thread),NULL,threadpool_worker,(void*)pool)!=0){
+        if(pthread_create(&(pool->threads),NULL,threadpool_worker,(void*)pool)!=0){
             threadpool_destroy(pool, 0);
             return NULL;
         }
-        log_info("thread: %08x started", (unit32_t)pool->thread[i]);
+        log_info("thread: %08x started", (int32_t)pool->threads[i]);
 
         pool->thread_count++;
         pool->started++;
@@ -68,7 +68,7 @@ err:
     return NULL;
 }
 
-int threadpool_add(zv_threadpool_t* pool, void (*func)(void*), void* arg){
+int threadpool_add(threadpool_t* pool, void (*func)(void*), void* arg){
     int rc,err= 0;
     if(pool==NULL||func == NULL){
         log_err("pool==NULL or func ==NULL");
@@ -81,12 +81,12 @@ int threadpool_add(zv_threadpool_t* pool, void (*func)(void*), void* arg){
     }
 
     if(pool->shutdown){
-        err= zv_tp_already_shutdown;
+        err= threadpool_already_shutdown;
         goto out;
     }
 
     //use a memory pool
-    task_t *task = (tast_t* )malloc(sizeof(task_t));
+    task_t *task = (task_t* )malloc(sizeof(task_t));
     if(task==NULL){
         log_err("malloc task fail");
         goto out;
@@ -135,37 +135,37 @@ int threadpool_destroy(threadpool_t* pool, int graceful){
 
     if(pool==NULL){
         log_err("pool == NULL");
-        return tp_invalid;
+        return threadpool_invalid;
     }
 
     if(pthread_mutex_lock(&(pool->lock))!=0){
-        return tp_lock_fail;
+        return threadpool_lock_fail;
     }
 
     do{
         if(pool->shutdown){
-            err = zv_tp_already_shutdown;
+            err = threadpool_already_shutdown;
             break;
         }
 
         pool->shutdown = (graceful)?graceful_shutdown: immediate_shutdown;
 
         if(pthread_cond_broadcast(&(pool->cond))!=0){
-            err = zv_tp_cond_broadcast;
+            err = threadpool_cond_broadcast;
         }
 
         if(pthread_mutex_unlock(&(pool->lock))!=0){
-            err = zv_tp_lock_fail;
+            err = threadpool_lock_fail;
             break;
         }
 
         int i;
         for(i=0;i<pool->thread_count;i++){
             if(pthread_join(pool->threads[i],NULL)!=0){
-                err= zv_tp_thread_fail;
+                err= threadpool_thread_fail;
             }
 
-            log_info("thread 08% exit",(uint32_t)pool->thread[i]);
+            log_info("thread 08% exit",(uint32_t)pool->threads[i]);
         }
     }while(0);
 
@@ -216,7 +216,7 @@ static void* threadpool_worker(void* arg){
         free(task);
     }
 
-    pool->start--;
+    pool->started--;
     pthread_mutex_unlock(&(pool->lock));
     pthread_exit(NULL);
 

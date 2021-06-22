@@ -3,7 +3,7 @@
 #include "http.h"
 #include "debug.h"
 
-int parse_request_line(http_request_t* r){
+int http_parse_request_line(http_request_t* r){
     u_char ch, *p, *m;
     size_t pi;
 
@@ -26,6 +26,7 @@ int parse_request_line(http_request_t* r){
 
     for(pi=r->pos;pi<r->last;pi++){
         p = (u_char*)(&r->buf[pi % MAX_BUF]);
+        ch = *p;
 
 
         switch(state){
@@ -45,30 +46,30 @@ int parse_request_line(http_request_t* r){
 
                     switch(p-m){
                         case 3:
-                            if(zv_str3_cmp(m, 'G', 'E','T',' ')){
-                                r->method = HTTP_GET;
+                            if(strcmp(m, 'G')){
+                                r->method = HTTP_GET;           //todo
                             }
                             break;
                         case 4:
-                            if(zv_str30cmp(m, 'P','O','S','T')){
+                            if(strcmp(m, 'P')){ //                            if(strcmp(m, 'P','O','S','T')){ //
                                 r->method = HTTP_POST;
                                 break;
                             }
 
-                            if(zv_str4cmp(m,'H','E','A',"D")){
-                                r->method = HTTP_HEAD;
+                            if(strcmp(m,'H')){
+                                r->method = HTTP_HEAD;        //todo
                             }
                             break;
                         default:
                             r->method = HTTP_UNKNOWN;
                             break;
                     }
-                    state = sw_spaces_before=_uri;
+                    state = sw_space_before_uri;
                     break;
                 }
 
                 if(ch == CR || ch == LF) break;
-                if((ch<'A'||ch>'Z')&&ch!='_')   return INVALID_METHOD;
+                if((ch<'A'||ch>'Z')&&ch!='_')   return HTTP_PARSE_INVALID_METHOD;
 
                 break;
 
@@ -84,7 +85,7 @@ int parse_request_line(http_request_t* r){
                     case ' ':
                         break;
                     default:
-                        return INVALID_REQUEST;
+                        return HTTP_PARSE_INVALID_REQUEST;
                 }
                 break;
 
@@ -107,28 +108,28 @@ int parse_request_line(http_request_t* r){
                         state = sw_http_H;
                         break;
                     default:
-                        return INVALID_REQUEST;
+                        return HTTP_PARSE_INVALID_REQUEST;
                 }
                 break;
-            case sw_http:
-                switch(ch){
-                    case ' ':
-                        break;
-                    case 'H':
-                        state = sw_http_H;
-                        break;
-                    default:
-                        return HTTP_PARSE_INVALID;
+//            case sw_http:
+//                switch(ch){
+//                    case ' ':
+//                        break;
+//                    case 'H':
+//                        state = sw_http_H;
+//                        break;
+//                    default:
+//                        return HTTP_PARSE_INVALID;
 
-                }
-                break;
+//                }
+//                break;
             case sw_http_H:
                 switch(ch){
                     case 'T':
                         state = sw_http_HTT;
                         break;
                     default:
-                        return HTTP_PARSE_INVALID;
+                        return HTTP_PARSE_INVALID_METHOD; //todo  UN SURE
                 }
                 break;
 
@@ -152,6 +153,7 @@ int http_parse_request_body(http_request_t* r){
         sw_cr,
         sw_crlf,
         sw_lf,
+        sw_crlfcr
 
     }state;
 
@@ -161,7 +163,7 @@ int http_parse_request_body(http_request_t* r){
     http_header_t* hd;
     for(pi= r->pos;pi<r->last;pi++){
         p = (u_char*)&r->buf[pi%MAXLINE];
-        ch= *pl;
+        ch= *p;
 
         switch(state){
             case sw_start:
@@ -193,7 +195,7 @@ int http_parse_request_body(http_request_t* r){
                     state = sw_spaces_after_colon;
                     break;
                 } else {
-                    return ZV_HTTP_PARSE_INVALID_HEADER;
+                    return HTTP_PARSE_INVALID_HEADER;
                 }
             case sw_spaces_after_colon:
                 if (ch == ' ') {
@@ -219,7 +221,7 @@ int http_parse_request_body(http_request_t* r){
                 if (ch == LF) {
                     state = sw_crlf;
                     // save the current http header
-                    hd = (zv_http_header_t *)malloc(sizeof(zv_http_header_t));
+                    hd = (http_header_t *)malloc(sizeof(http_header_t));
                     hd->key_start   = r->cur_header_key_start;
                     hd->key_end     = r->cur_header_key_end;
                     hd->value_start = r->cur_header_value_start;
@@ -229,7 +231,7 @@ int http_parse_request_body(http_request_t* r){
 
                     break;
                 } else {
-                    return ZV_HTTP_PARSE_INVALID_HEADER;
+                    return HTTP_PARSE_INVALID_HEADER;
                 }
 
             case sw_crlf:
@@ -246,7 +248,7 @@ int http_parse_request_body(http_request_t* r){
                     case LF:
                         goto done;
                     default:
-                        return ZV_HTTP_PARSE_INVALID_HEADER;
+                        return HTTP_PARSE_INVALID_HEADER;
                 }
                 break;
         }
@@ -262,5 +264,5 @@ int http_parse_request_body(http_request_t* r){
 
     r->state = sw_start;
 
-    return ZV_OK;
+    return OK;
 }

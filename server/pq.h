@@ -3,7 +3,7 @@
 #define PQ_H
 
 #include <stdio.h>
-#define PQ_DEFAULT_SIZE 10;
+#define PQ_DEFAULT_SIZE 10
 #define  OK  0
 #define ZV_OK 0
 
@@ -19,7 +19,7 @@ typedef struct{
 
 int pq_init(pq_t* pq_stru, pq_comp_pt comp, size_t size);
 
-int pq_isempty(pq_t* pq);
+int pq_is_empty(pq_t* pq);
 
 void* pq_min(pq_t* pq);
 
