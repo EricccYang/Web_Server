@@ -57,7 +57,7 @@ int find_timer(){
 
         time = (int)(timer_node->key - current_msec);
         debug();
-        time = (time>0?time : 0);
+        time = (time > 0 ? time : 0);
         break;
     }
 

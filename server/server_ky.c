@@ -21,11 +21,11 @@
 #include "http_request.h"
 
 
-#define  CONF "../../server/server_ky.conf"
+#define  CONF "server_ky.conf"
 #define  PROGRAM_VERSION "0.1"
 //
 //typedef struct threadpool_t threadpool_t;
-extern struct epoll_event* events;
+struct epoll_event* events;
 
 static const struct option long_options[]={
         {"help",no_argument,NULL,'?'},
@@ -49,7 +49,28 @@ int main (int argc, char* argv[]){
     int option_index =0;
     char* conf_file = CONF;
 
-    /* parse argv*/
+  if(0) {
+  //
+      //#define log_er(M, ...)  fprintf(stdout, "[ERROR] (%s:%d:errno:%s)" M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+      /* parse argv*/
+//      log_err("dd ")
+//      [ERROR] (/tmp/tmp.aYpSOWqSUW/server/server_ky.c:55:errno:)dd
+//          [ERROR] (/tmp/tmp.aYpSOWqSUW/server/server_ky.c:55:errno:)(null)
+      //todo
+      //问题有待研究，为什么传进去会死
+  //    log_err("bbbb");
+      //    log_err("aaaa");
+      //    log_err("%s","1");
+      //    log_err("%s","2");
+      //    log_err("sss");
+      //
+      //    fprintf(stdout,"%s, %s", "da","d");
+
+    fprintf(stdout,"%s, %s","da");
+//    /tmp/tmp.aYpSOWqSUW/cmake-build-remote/server/ky_server -c ../../server/server_ky.conf
+//    da, AWA��AVI��AUI��ATL�%, [INFO] (/tmp/tmp.aYpSOWqSUW/server/server_ky.c:78) 99
+    //各种有趣的事情
+    }
 
     if(argc==1){
         usage();
@@ -75,7 +96,7 @@ int main (int argc, char* argv[]){
         }
     }
 
-    debug("conffile = %s" , conf_file);
+    debug("conf_file = %s" , conf_file);
     if( optind < argc ){
         log_err("non-option ARGV-elements:  ");
         while (optind < argc )
@@ -130,15 +151,18 @@ int main (int argc, char* argv[]){
     //initialize timer
     timer_init();
 
+    //init global events
+    events = (struct epoll_event*) malloc(sizeof(struct epoll_event)*MAXEVENTS);
+
     log_info("server started.");
-    int n;
-    int i, fd;
+    int n = 0 ;
+    int i = 0, fd;
     int time;
 
     while(1){                                           //one single epoll event per while loop
         time = find_timer();
         debug("wait time = %d", time);
-        n = epoll_wait(epfd, events, MAXEVENTS, time);   //how many events ready
+        n = epoll_wait_wrap(epfd, events, MAXEVENTS, time);   //how many events ready
         handle_expire_timers();
 
         for(i = 0;i<n;i++){
@@ -165,7 +189,7 @@ int main (int argc, char* argv[]){
                     check(rc == 0, "make_socket_non_blocking");
                     log_info("new connection fd %d", infd);
 
-                    http_request_t* request =(http_request_t*)malloc(sizeof(http_request_t));
+                    http_request_t* request = (http_request_t*)malloc(sizeof(http_request_t));
                     if(request == NULL){
                         log_err("malloc(sizeof(http_request_t))");
                         break;
@@ -177,11 +201,10 @@ int main (int argc, char* argv[]){
 
                     epoll_add(epfd, infd, &event);
                     add_timer(request, TIMEOUT_DEFAULT, http_close_conn);
-
-                }    //end of while loop
+                }
             }
             else{
-                if((events[i].events & EPOLLERR)||(events[i].events & EPOLLERR)||(!(events[i].events & EPOLLIN))){
+                if((events[i].events & EPOLLERR)||(!(events[i].events & EPOLLIN))){
                     log_err("epoll_err fd :%d", r->fd);
                     close(fd);
                     continue;
@@ -196,5 +219,6 @@ int main (int argc, char* argv[]){
     } //while loop, continue serve after one single epoll event
 
 
-}  //end of whole process
+}
+//end of whole process
 

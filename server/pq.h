@@ -3,7 +3,7 @@
 #define PQ_H
 
 #include <stdio.h>
-#define PQ_DEFAULT_SIZE 10
+#define PQ_DEFAULT_SIZE 100
 #define  OK  0
 #define ZV_OK 0
 

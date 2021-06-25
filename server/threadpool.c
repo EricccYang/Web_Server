@@ -48,7 +48,7 @@ threadpool_t *threadpool_init(int thread_num){
 
     int i;
     for(i=0;i<thread_num;i++){
-        if(pthread_create(&(pool->threads),NULL,threadpool_worker,(void*)pool)!=0){
+        if(pthread_create(&(pool->threads[i]),NULL,threadpool_worker,(void*)pool)!=0){
             threadpool_destroy(pool, 0);
             return NULL;
         }

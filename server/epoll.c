@@ -5,7 +5,7 @@
 #include "stdio.h"
 
 
-struct epoll_event* events;
+extern struct epoll_event* events;
 
 int epoll_create(int flags){
 
@@ -13,7 +13,7 @@ int epoll_create(int flags){
     check(fd>0, "epoll_creat:");
 
     struct epoll_event* event = (struct epoll_event*)malloc(sizeof(struct epoll_event)*MAXEVENTS);
-    check(events != NULL, "epoll_create: malloc");
+    check(event != NULL, "epoll_create: malloc");
     return fd;
 }
 
@@ -36,8 +36,11 @@ void epoll_del(int epfd, int fd, struct epoll_event* event){
     return;
 }
 
-int epoll_wait(int epfd, struct epoll_event* events, int maxevents, int timeout){
+int epoll_wait_wrap(int epfd, struct epoll_event* events, int maxevents, int timeout){
     int n = epoll_wait(epfd, events, maxevents, timeout);
-    check(n>=0,"epoll_wait");
+    int err = errno;
+    int b =0 ;
+
+    check(n >= 0, "epoll_wait");
     return n;
 }

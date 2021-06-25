@@ -75,7 +75,6 @@ void http_handle_header(http_request_t* r, http_out_t* o) {
 int http_close_conn(http_request_t* r){
     close(r->fd);
     free(r);
-
     return OK;
 }
 
