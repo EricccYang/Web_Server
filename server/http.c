@@ -60,7 +60,10 @@ void do_request(void* ptr){
     size_t remain_size;
 
     del_timer(r);
+
     for(;;){
+
+
         plast = &r->buf[r->last%MAXLINE];
         remain_size = MIN(MAX_BUF - (r->last - r->pos)-1, MAXLINE - r->last%MAX_BUF);
 
@@ -117,7 +120,7 @@ void do_request(void* ptr){
         }
 
         rc = init_out_t(out, fd);
-        check(rc == ZV_OK, "zv_init_out_t");
+        check(rc == OK, "zv_init_out_t");
 
         parse_uri(r->uri_start, r->uri_end - r->uri_start, filename, NULL);
 
@@ -152,6 +155,7 @@ void do_request(void* ptr){
         free(out);
 
     }
+    // just a test
 
     struct epoll_event event;
     event.data.ptr = ptr;

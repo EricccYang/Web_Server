@@ -19,8 +19,7 @@ int pq_init(pq_t* pq_stru, pq_comp_pt comp, size_t size){
 
 
 int pq_is_empty(pq_t* pq_stru){
-
-    return (pq_stru->nalloc == 0)?1 : 0;
+    return (pq_stru->nalloc == 0);
 }
 
 
@@ -29,8 +28,8 @@ size_t pq_size(pq_t* pq_stru){
 }
 
 void* pq_min(pq_t* pq_stru){
-    if(pq_is_empty(pq_stru))
-        return NULL;
+    int res = pq_is_empty(pq_stru);
+    if( pq_is_empty(pq_stru) ) return NULL;
     return pq_stru->pq[1];
 }
 

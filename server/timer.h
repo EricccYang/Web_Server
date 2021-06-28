@@ -8,7 +8,7 @@
 
 
 #define TIMER_INFINITE -1
-#define TIMEOUT_DEFAULT 500   /*ms*/
+#define TIMEOUT_DEFAULT 50000   /*ms*/
 
 
 typedef int (*timer_handler_pt)(http_request_t *rq);

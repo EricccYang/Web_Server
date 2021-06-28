@@ -104,7 +104,6 @@ int main (int argc, char* argv[]){
         return 0;
     }
 
-
     /* read config file */
     char conf_buf[BUFLEN];
     conf_t  cf;
@@ -139,7 +138,7 @@ int main (int argc, char* argv[]){
 
     http_request_t* request =(http_request_t*)malloc(sizeof(http_request_t));
     init_request_t(request, listenfd, epfd, &cf);   //bind the listen port，epoll descripter and request
-
+//
     event.data.ptr = (void*)request;
     event.events = EPOLLIN|EPOLLET;                     //read & edge trigger
     epoll_add(epfd,listenfd, &event);

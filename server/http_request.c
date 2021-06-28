@@ -45,7 +45,7 @@ int init_out_t(http_out_t* o, int fd){
     o->modified = 1;
     o->status = 0;
 
-    return HTTP_OK;
+    return OK;
 }
 
 void http_handle_header(http_request_t* r, http_out_t* o) {

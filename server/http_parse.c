@@ -122,7 +122,7 @@ int http_parse_request_line(http_request_t* r){
         case sw_http_H:
           switch (ch) {
           case 'T':
-            state = sw_http_HTT;
+            state = sw_http_HT;
             break;
           default:
             return HTTP_PARSE_INVALID_METHOD; // todo  UN SURE
@@ -181,7 +181,7 @@ int http_parse_request_line(http_request_t* r){
             return HTTP_PARSE_INVALID_METHOD;
           } else{
             state = sw_minor_digit;
-            r->http_minor = atoi(ch);                  //?
+            r->http_minor = (int)(ch) - 48;                  //?
             break;
           }
 
@@ -197,9 +197,13 @@ int http_parse_request_line(http_request_t* r){
           }
 
         case sw_last_lf:
-          return OK;
+          goto retu;
         }
     }
+
+retu:
+  r->pos = pi;
+  return OK;
 
 }
 
