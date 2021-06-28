@@ -17,9 +17,12 @@ int http_parse_request_line(http_request_t* r){
         sw_http_HT,
         sw_http_HTT,
         sw_http_HTTP,
+        sw_slash_after_HTTP,
         sw_first_major_digit,
-        sw_major_digit,
-
+        sw_point_in_http_version,
+        sw_minor_digit,
+        sw_last_cr,
+        sw_last_lf,
     }state;
 
     state= r->state;
@@ -29,113 +32,175 @@ int http_parse_request_line(http_request_t* r){
         ch = *p;
 
 
-        switch(state){
-            case sw_start:
-                r->request_start = p;
+        switch(state) {
+        case sw_start:
+          r->request_start = p;
 
-                if(ch == CR || ch == LF) break;
-                if((ch<'A'||ch>'Z')&&ch!='_')   return HTTP_PARSE_INVALID_METHOD;
+          if (ch == CR || ch == LF)
+            break;
+          if ((ch < 'A' || ch > 'Z') && ch != '_')
+            return HTTP_PARSE_INVALID_METHOD;
 
-                state = sw_method;
+          state = sw_method;
+          break;
+
+        case sw_method:
+          if (ch == ' ') {
+            r->method_end = p;
+            m = r->method_start;
+
+            switch (p - m) {
+            case 3:
+              if (strcmp(m, 'G')) {
+                r->method = HTTP_GET; // todo
+              }
+              break;
+            case 4:
+              if (strcmp(m, 'P')) { //                            if(strcmp(m, 'P','O','S','T')){ //
+                r->method = HTTP_POST;
                 break;
+              }
 
-            case sw_method:
-                if(ch == ' '){
-                    r->method_end = p;
-                    m = r->method_start;
+              if (strcmp(m, 'H')) {
+                r->method = HTTP_HEAD; // todo
+              }
+              break;
+            default:
+              r->method = HTTP_UNKNOWN;
+              break;
+            }
+            state = sw_space_before_uri;
+            break;
+          }
 
-                    switch(p-m){
-                        case 3:
-                            if(strcmp(m, 'G')){
-                                r->method = HTTP_GET;           //todo
-                            }
-                            break;
-                        case 4:
-                            if(strcmp(m, 'P')){ //                            if(strcmp(m, 'P','O','S','T')){ //
-                                r->method = HTTP_POST;
-                                break;
-                            }
+          if (ch == CR || ch == LF)
+            break;
+          if ((ch < 'A' || ch > 'Z') && ch != '_')
+            return HTTP_PARSE_INVALID_METHOD;
 
-                            if(strcmp(m,'H')){
-                                r->method = HTTP_HEAD;        //todo
-                            }
-                            break;
-                        default:
-                            r->method = HTTP_UNKNOWN;
-                            break;
-                    }
-                    state = sw_space_before_uri;
-                    break;
-                }
+          break;
 
-                if(ch == CR || ch == LF) break;
-                if((ch<'A'||ch>'Z')&&ch!='_')   return HTTP_PARSE_INVALID_METHOD;
+        case sw_space_before_uri:
 
-                break;
+          if (ch == '/') {
+            r->uri_start = p;
+            state = sw_after_slash_in_uri;
+            break;
+          }
 
-            case sw_space_before_uri:
+          switch (ch) {
+          case ' ':
+            break;
+          default:
+            return HTTP_PARSE_INVALID_REQUEST;
+          }
+          break;
 
-                if(ch =='/'){
-                    r->uri_start = p;
-                    state = sw_after_slash_in_uri;
-                    break;
-                }
+        case sw_after_slash_in_uri:
+          switch (ch) {
+          case ' ':
+            r->uri_end = p;
+            state = sw_http;
+            break;
+          default:
+            break;
+          }
+          break;
 
-                switch(ch){
-                    case ' ':
-                        break;
-                    default:
-                        return HTTP_PARSE_INVALID_REQUEST;
-                }
-                break;
+        case sw_http:
+          switch (ch) {
+          case ' ':
+            break;
+          case 'H':
+            state = sw_http_H;
+            break;
+          default:
+            return HTTP_PARSE_INVALID_REQUEST;
+          }
+          break;
 
-            case sw_after_slash_in_uri:
-                switch(ch){
-                    case ' ':
-                        r->uri_end = p;
-                        state = sw_http;
-                        break;
-                    default:
-                        break;
-                }
-                break;
+        case sw_http_H:
+          switch (ch) {
+          case 'T':
+            state = sw_http_HTT;
+            break;
+          default:
+            return HTTP_PARSE_INVALID_METHOD; // todo  UN SURE
+          }
+          break;
 
-            case sw_http:
-                switch (ch){
-                    case ' ':
-                        break;
-                    case 'H':
-                        state = sw_http_H;
-                        break;
-                    default:
-                        return HTTP_PARSE_INVALID_REQUEST;
-                }
-                break;
-//            case sw_http:
-//                switch(ch){
-//                    case ' ':
-//                        break;
-//                    case 'H':
-//                        state = sw_http_H;
-//                        break;
-//                    default:
-//                        return HTTP_PARSE_INVALID;
+        case sw_http_HT:
+          switch (ch) {
+          case 'T':
+            state = sw_http_HTT;
+            break;
+          default:
+            return HTTP_PARSE_INVALID_METHOD;
+          }
+          break;
 
-//                }
-//                break;
-            case sw_http_H:
-                switch(ch){
-                    case 'T':
-                        state = sw_http_HTT;
-                        break;
-                    default:
-                        return HTTP_PARSE_INVALID_METHOD; //todo  UN SURE
-                }
-                break;
+        case sw_http_HTT:
+          switch (ch) {
+          case 'P':
+            state = sw_http_HTTP;
+            break;
+          default:
+            return HTTP_PARSE_INVALID_METHOD;
+          }
+          break;
 
+        case sw_http_HTTP:
+          switch(ch){
+          case '/':
+            state = sw_slash_after_HTTP;
+            break;
+          default:
+            return HTTP_PARSE_INVALID_METHOD;
+          }
+          break;
 
+        case sw_slash_after_HTTP:
+          if(ch == '1') {
+            state = sw_first_major_digit;
+            r->http_major = 1;
+            break;
+          } else {
+            return HTTP_PARSE_INVALID_METHOD;
+          }
+
+        case sw_first_major_digit:
+          if( ch == '.'){
+            state = sw_point_in_http_version;
+            break;
+          } else{
+            return HTTP_PARSE_INVALID_METHOD;
+          }
+
+        case sw_point_in_http_version:
+          if(ch < 48 || ch > 57){
+            return HTTP_PARSE_INVALID_METHOD;
+          } else{
+            state = sw_minor_digit;
+            r->http_minor = atoi(ch);                  //?
+            break;
+          }
+
+        case sw_minor_digit:
+          if (ch == CR )
+            state = sw_last_cr;
+            break;
+
+        case sw_last_cr:
+          if( ch == LF ){
+            state = sw_last_lf;
+            break;
+          }
+
+        case sw_last_lf:
+          return OK;
         }
     }
+
 }
 
 
