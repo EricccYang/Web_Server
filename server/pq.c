@@ -19,7 +19,7 @@ int pq_init(pq_t* pq_stru, pq_comp_pt comp, size_t size){
 
 
 int pq_is_empty(pq_t* pq_stru){
-    return (pq_stru->nalloc == 0);
+    return ( pq_stru->nalloc == 0 );
 }
 
 
@@ -33,24 +33,24 @@ void* pq_min(pq_t* pq_stru){
     return pq_stru->pq[1];
 }
 
-static int resize(pq_t* pq_stru, size_t newsize){        //
-    if(newsize<= pq_stru->nalloc){
-        log_err("resize: size too small");
-        return -1;
-    }
-
-    void** newptr= (void*)malloc(sizeof(void*)*newsize);
-    if(!newptr){
-        log_err("malloc newsize error");
-        return -1;
-    }
-
-    memcpy(newptr, pq_stru->pq, sizeof((void*)(pq_stru->nalloc+1)));
-    free(pq_stru->pq);
-    pq_stru->pq= newptr;
-    pq_stru->nalloc= newsize;
-    return 0;
-}
+//static int resize(pq_t* pq_stru, size_t newsize){
+//    if( newsize <= pq_stru->nalloc ){
+//        log_err("resize: size too small");
+//        return -1;
+//    }
+//
+//    void** newptr= (void*)malloc(sizeof(void*)*newsize);
+//    if(!newptr){
+//        log_err("malloc newsize error");
+//        return -1;
+//    }
+//
+//    memcpy(newptr, pq_stru->pq, sizeof((void*)(pq_stru->nalloc+1)));
+//    free(pq_stru->pq);
+//    pq_stru->pq= newptr;
+//    pq_stru->size= newsize;
+//    return 0;
+//}
 
 static int exchange(pq_t* pq_stru, size_t i, size_t j){
     void* temp =pq_stru->pq[i];
@@ -67,14 +67,14 @@ static void swim(pq_t* pq_stru, size_t k){
 }
 
 
-static size_t sink(pq_t* pq_stru, size_t k){      //不懂
+static size_t sink(pq_t* pq_stru, size_t k){
     size_t j;
     size_t nalloc  = pq_stru->nalloc;
 
     while(2*k <= nalloc){
         j=2*k;
-        if(j<nalloc&& pq_stru->comp(pq_stru->pq[j+1],pq_stru->pq[j]))   j++;
-        if(!pq_stru->comp(pq_stru->pq[j],pq_stru->pq[k]))  break;
+        if( j < nalloc && pq_stru->comp(pq_stru->pq[j+1],pq_stru->pq[j]))   j++;
+        if( !pq_stru->comp(pq_stru->pq[j],pq_stru->pq[k]) )  break;
         exchange(pq_stru, j, k);
         k = j;
     }
@@ -86,15 +86,15 @@ static size_t sink(pq_t* pq_stru, size_t k){      //不懂
 int pq_delim(pq_t* pq_stru){
     if(pq_is_empty(pq_stru)) return ZV_OK;
 
-    exchange(pq_stru,1,pq_stru->nalloc);
+    exchange(pq_stru,1, pq_stru->nalloc);
 
     pq_stru->nalloc--;
     sink(pq_stru,1);
 
-    if(pq_stru->nalloc >0 && pq_stru->nalloc <= (pq_stru->size -1)/4)
-        if(resize(pq_stru,pq_stru->size/2)<0){
-            return -1;
-        }
+//    if(pq_stru->nalloc > 0 && pq_stru->nalloc <= (pq_stru->size -1)/4)
+//        if( resize(pq_stru,pq_stru->size/2 )<0){
+//            return -1;
+//        }
 
     return OK;
 }
@@ -102,9 +102,9 @@ int pq_delim(pq_t* pq_stru){
 
 
 int pq_insert(pq_t* pq_stru, void* item){
-    if(pq_stru->nalloc +1 == pq_stru->size){
-        if(resize(pq_stru, pq_stru->size*2)<0) return -1;
-    }
+//    if(pq_stru->nalloc +1 == pq_stru->size){
+//        if( resize(pq_stru, pq_stru->size*2) < 0)  return -1;
+//    }
 
     pq_stru->pq[++pq_stru->nalloc] = item;
     swim(pq_stru, pq_stru->nalloc);

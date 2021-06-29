@@ -38,24 +38,25 @@ int timer_init(){          //initial a timer object
 }
 
 int find_timer(){
-    timer_node* timer_node;
+    timer_node* node;
     int time = TIMER_INFINITE;
     int rc;
 
-    while(!pq_is_empty(&timer)){
+    while( !pq_is_empty(&timer) ){
         debug("find_timer");
         time_update();
-        timer_node = pq_min(&timer);
-        check(timer_node != NULL, "pq_min_error");
+        node = pq_min(&timer);
+        check(node != NULL, "pq_min_error");
 
-        if(timer_node->deleted){
+        if(node->deleted){
             rc = pq_delim(&timer);
             check(rc == 0, "pq_delim");
-            free(timer_node);
+            log_info("%s %d", "attempt to free", node);
+            free(node);
             continue;
         }
 
-        time = (int)(timer_node->key - current_msec);
+        time = (int)(node->key - current_msec);
         debug();
         time = (time > 0 ? time : 0);
         break;
@@ -66,61 +67,63 @@ int find_timer(){
 
 void handle_expire_timers(){
     debug();
-    timer_node* timer_node;
+    timer_node* node;
     int rc;
 
     while(!pq_is_empty(&timer)){
         debug();
         time_update();
-        timer_node = pq_min(&timer);
-        check(timer_node != NULL, "pq_min error");
+        node = pq_min(&timer);
+        check(node != NULL, "pq_min error");
 
-        if(timer_node->deleted){
+        if(node->deleted){
             rc = pq_delim(&timer);
             check(rc == 0, "handle_expire_timers: pq_delim error");
-            free(timer_node);
+          log_info("%s %d", "attempt to free", node);
+          free(node);
             continue;
         }
 
-        if(timer_node->key > current_msec){
+        if(node->key > current_msec){
             return ;
         }
 
-        if( timer_node->handler){
-            timer_node ->handler (timer_node->rq);
+        if(node->handler){
+            node->handler(node->rq);
         }
 
         rc = pq_delim(&timer);
         check( rc==0, "handle_expire_timers: pq_delmin error");
-        free(timer_node);
+      log_info("%s %d", "attempt to free", node);
+      free(node);
     }
 }
 
 
 void add_timer(http_request_t* rq, size_t timeout, timer_handler_pt handler){
     int rc;
-    timer_node* timer_node =  malloc(sizeof(timer_node));
-    check(timer_node!= NULL, "add_timer: malloc error");
+    timer_node* node =  malloc(sizeof(timer_node));
+    check(node!= NULL, "add_timer: malloc error");
 
     time_update();
-    rq->timer = timer_node;
-    timer_node->key = current_msec + timeout;
+    rq->timer = node;
+    node->key = current_msec + timeout;
     debug();
-    timer_node->deleted= 0;
-    timer_node->handler = handler;
-    timer_node->rq = rq;
+    node->deleted= 0;
+    node->handler = handler;
+    node->rq = rq;
 
-    rc = pq_insert(&timer, timer_node);
+    rc = pq_insert(&timer, node);
     check(rc == 0, "add_timer:insert error");
 }
 
 void del_timer(http_request_t *rq){
     debug();
     time_update();
-    timer_node* timer_node =rq->timer;
-    check(timer_node!= NULL, "zv_dle_timer rq->timer is NULL");
+    timer_node* node =rq->timer;
+    check(node!= NULL, "zv_dle_timer rq->timer is NULL");
 
-    timer_node->deleted =1;
+    node->deleted =1;
 }
 
 

@@ -161,6 +161,7 @@ int main (int argc, char* argv[]){
     while(1){                                           //one single epoll event per while loop
         time = find_timer();
         debug("wait time = %d", time);
+        log_info("%s","start to wait");
         n = epoll_wait_wrap(epfd, events, MAXEVENTS, time);   //how many events ready
         handle_expire_timers();
 
