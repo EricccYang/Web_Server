@@ -1,11 +1,5 @@
 
-#include "http.h"
-#include "http_request.h"
-#include "http_parse.h"
-#include "debug.h"
-#include "timer.h"
-#include "epoll.h"
-
+#pragma once
 
 #include <sys/mman.h>
 #include <sys/types.h>
@@ -15,8 +9,12 @@
 #include <stdlib.h>
 #include "unistd.h"
 
-
-#include "string.h"
+#include "http.h"
+#include "http_request.h"
+#include "http_parse.h"
+#include "debug.h"
+#include "timer.h"
+#include "epoll.h"
 
 
 static const char* get_file_type(const char* type);
@@ -24,7 +22,6 @@ static void parse_uri(char* uri, int length, char* filename, char* queryshring);
 static void do_error(int fd, char* casuse, char* errnum, char* shortingmsg, char* longmsg);
 static void serve_static(int fd, char* filename, size_t filesize, http_out_t* out);
 
-//static serve_static( int fd, char* filename, size_t filesize, http_out_t *out);
 static char* ROOT = NULL;
 
 mime_type_t mime[]={

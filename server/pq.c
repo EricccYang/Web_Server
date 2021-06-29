@@ -33,24 +33,24 @@ void* pq_min(pq_t* pq_stru){
     return pq_stru->pq[1];
 }
 
-//static int resize(pq_t* pq_stru, size_t newsize){
-//    if( newsize <= pq_stru->nalloc ){
-//        log_err("resize: size too small");
-//        return -1;
-//    }
-//
-//    void** newptr= (void*)malloc(sizeof(void*)*newsize);
-//    if(!newptr){
-//        log_err("malloc newsize error");
-//        return -1;
-//    }
-//
-//    memcpy(newptr, pq_stru->pq, sizeof((void*)(pq_stru->nalloc+1)));
-//    free(pq_stru->pq);
-//    pq_stru->pq= newptr;
-//    pq_stru->size= newsize;
-//    return 0;
-//}
+static int resize(pq_t* pq_stru, size_t newsize){
+    if( newsize <= pq_stru->nalloc ){
+        log_err("resize: size too small");
+        return -1;
+    }
+
+    void** newptr= (void*)malloc(sizeof(void*)*newsize);
+    if(!newptr){
+        log_err("malloc newsize error");
+        return -1;
+    }
+
+    memcpy(newptr, pq_stru->pq, sizeof((void*)(pq_stru->nalloc+1)));
+    free(pq_stru->pq);
+    pq_stru->pq= newptr;
+    pq_stru->size= newsize;
+    return 0;
+}
 
 static int exchange(pq_t* pq_stru, size_t i, size_t j){
     void* temp =pq_stru->pq[i];

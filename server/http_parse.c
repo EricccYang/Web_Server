@@ -203,6 +203,7 @@ int http_parse_request_line(http_request_t* r){
 
 retu:
   r->pos = pi;
+  r->state = state;
   return OK;
 
 }
